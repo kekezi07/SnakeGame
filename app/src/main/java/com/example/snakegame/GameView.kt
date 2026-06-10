@@ -1,14 +1,23 @@
 package com.example.snakegame
 
 import android.content.Context
+<<<<<<< HEAD
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import android.view.MotionEvent
+=======
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.util.AttributeSet
+import android.view.View
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 import kotlin.random.Random
 
 class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
+<<<<<<< HEAD
     private val snake = mutableListOf<Pair<Int, Int>>()
 
     private var direction = ""
@@ -21,10 +30,20 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private val maxY
         get() = height / boxSize
+=======
+    private val paint = Paint()
+
+    private val snake = mutableListOf<Pair<Int, Int>>()
+
+    private var direction = "RIGHT"
+
+    private val boxSize = 50
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 
     private var foodX = 5
     private var foodY = 5
 
+<<<<<<< HEAD
     var score = 0
     var gameOver = false
     var gameStarted = false
@@ -43,6 +62,8 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         color = Color.parseColor("#A7D948")
     }
 
+=======
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
     init {
         snake.add(Pair(10, 10))
     }
@@ -50,6 +71,7 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+<<<<<<< HEAD
         drawGrid(canvas)
 
         // comida
@@ -135,6 +157,34 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     fun moveSnake() {
         if (!gameStarted) return
+=======
+        canvas.drawColor(Color.BLACK)
+
+        paint.color = Color.GREEN
+
+        for (part in snake) {
+            canvas.drawRect(
+                (part.first * boxSize).toFloat(),
+                (part.second * boxSize).toFloat(),
+                ((part.first + 1) * boxSize).toFloat(),
+                ((part.second + 1) * boxSize).toFloat(),
+                paint
+            )
+        }
+
+        paint.color = Color.RED
+
+        canvas.drawRect(
+            (foodX * boxSize).toFloat(),
+            (foodY * boxSize).toFloat(),
+            ((foodX + 1) * boxSize).toFloat(),
+            ((foodY + 1) * boxSize).toFloat(),
+            paint
+        )
+    }
+
+    fun moveSnake() {
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 
         val head = snake.first()
 
@@ -147,6 +197,7 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             "LEFT" -> newX--
             "RIGHT" -> newX++
         }
+<<<<<<< HEAD
         if (newX < 0 || newY < 0 || newX >= maxX || newY >= maxY) {
 
             gameOver = true
@@ -178,6 +229,14 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
             foodY = Random.nextInt(0, maxY)
 
+=======
+
+        snake.add(0, Pair(newX, newY))
+
+        if (newX == foodX && newY == foodY) {
+            foodX = Random.nextInt(0, 15)
+            foodY = Random.nextInt(0, 20)
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
         } else {
             snake.removeAt(snake.size - 1)
         }
@@ -188,6 +247,7 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     fun setDirection(dir: String) {
         direction = dir
     }
+<<<<<<< HEAD
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         when(event.action) {
@@ -226,4 +286,6 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
         return true
     }
+=======
+>>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 }
