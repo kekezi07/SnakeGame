@@ -3,19 +3,29 @@ package com.example.snakegame
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameView: GameView
+    private lateinit var txtScore: TextView
+    private lateinit var txtBest: TextView
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val gameLoop = object : Runnable {
+
         override fun run() {
 
-            gameView.moveSnake()
+            if (!gameView.gameOver) {
+
+                gameView.moveSnake()
+
+                txtScore.text = "🍎 ${gameView.score}"
+
+                txtBest.text = "🏆 ${gameView.score}"
+            }
 
             handler.postDelayed(this, 300)
         }
@@ -27,22 +37,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         gameView = findViewById(R.id.gameView)
+        txtScore = findViewById(R.id.txtScore)
+        txtBest = findViewById(R.id.txtBest)
 
-        findViewById<Button>(R.id.btnUp).setOnClickListener {
-            gameView.setDirection("UP")
-        }
 
-        findViewById<Button>(R.id.btnDown).setOnClickListener {
-            gameView.setDirection("DOWN")
-        }
-
-        findViewById<Button>(R.id.btnLeft).setOnClickListener {
-            gameView.setDirection("LEFT")
-        }
-
-        findViewById<Button>(R.id.btnRight).setOnClickListener {
-            gameView.setDirection("RIGHT")
-        }
 
         handler.post(gameLoop)
     }
