@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-<<<<<<< HEAD
     android:background="#5E8C31">
 
     <!-- HUD -->
@@ -36,49 +36,11 @@
     </LinearLayout>
 
     <!-- Área do jogo -->
-=======
-    android:background="#111111">
-
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
     <com.example.snakegame.GameView
         android:id="@+id/gameView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-<<<<<<< HEAD
-=======
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="←"/>
-
-        <Button
-            android:id="@+id/btnUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↑"/>
-
-        <Button
-            android:id="@+id/btnDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↓"/>
-
-        <Button
-            android:id="@+id/btnRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="→"/>
-
-    </LinearLayout>
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
+        android:layout_weight="1"
+        android:layout_margin="16dp"/>
 
 </LinearLayout>

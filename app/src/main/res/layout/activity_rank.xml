@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <!-- Fundo da tela -->
+
+    <ImageView
+
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+
+        android:src="@drawable/fundo_rank"
+
+        android:scaleType="centerCrop"/>
+
+
+
+    <!-- Troféu no topo -->
+
+    <ImageView
+
+        android:id="@+id/imgTrofeu"
+
+        android:layout_width="280dp"
+
+        android:layout_height="170dp"
+
+        android:layout_gravity="top|center_horizontal"
+
+        android:layout_marginTop="60dp"
+
+        android:src="@drawable/trofeu_rank"
+
+        android:scaleType="fitCenter"/>
+
+
+
+    <!-- Bloco grande do ranking -->
+
+    <ImageView
+
+        android:id="@+id/imgBlocoRank"
+
+        android:layout_width="340dp"
+
+        android:layout_height="500dp"
+
+        android:layout_gravity="center"
+
+        android:layout_marginTop="80dp"
+
+        android:src="@drawable/bloco_rank"
+
+        android:scaleType="fitXY"/>
+
+
+
+    <!-- Lista dos jogadores -->
+
+    <LinearLayout
+
+        android:id="@+id/listRank"
+
+        android:layout_width="280dp"
+
+        android:layout_height="400dp"
+
+        android:layout_gravity="center"
+
+        android:layout_marginTop="80dp"
+
+        android:orientation="vertical"
+
+        android:gravity="center_horizontal">
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

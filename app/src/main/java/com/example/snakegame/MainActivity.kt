@@ -3,26 +3,18 @@ package com.example.snakegame
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-<<<<<<< HEAD
 import android.widget.TextView
-=======
-import android.widget.Button
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameView: GameView
-<<<<<<< HEAD
     private lateinit var txtScore: TextView
     private lateinit var txtBest: TextView
-=======
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val gameLoop = object : Runnable {
-<<<<<<< HEAD
 
         override fun run() {
 
@@ -34,13 +26,8 @@ class MainActivity : AppCompatActivity() {
 
                 txtBest.text = "🏆 ${gameView.score}"
             }
-=======
-        override fun run() {
 
-            gameView.moveSnake()
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
-
-            handler.postDelayed(this, 300)
+            handler.postDelayed(this, 135)
         }
     }
 
@@ -49,31 +36,27 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        MusicManager.play(
+            this,
+            R.raw.game_music
+        )
+
         gameView = findViewById(R.id.gameView)
-<<<<<<< HEAD
+
         txtScore = findViewById(R.id.txtScore)
+
         txtBest = findViewById(R.id.txtBest)
 
-
-=======
-
-        findViewById<Button>(R.id.btnUp).setOnClickListener {
-            gameView.setDirection("UP")
-        }
-
-        findViewById<Button>(R.id.btnDown).setOnClickListener {
-            gameView.setDirection("DOWN")
-        }
-
-        findViewById<Button>(R.id.btnLeft).setOnClickListener {
-            gameView.setDirection("LEFT")
-        }
-
-        findViewById<Button>(R.id.btnRight).setOnClickListener {
-            gameView.setDirection("RIGHT")
-        }
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
-
         handler.post(gameLoop)
+    }
+
+    override fun onDestroy() {
+
+        super.onDestroy()
+
+        handler.removeCallbacks(gameLoop)
+
+        MusicManager.stop()
+
     }
 }

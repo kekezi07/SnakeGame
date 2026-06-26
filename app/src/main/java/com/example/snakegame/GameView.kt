@@ -1,85 +1,113 @@
 package com.example.snakegame
 
 import android.content.Context
-<<<<<<< HEAD
 import android.graphics.*
 import android.util.AttributeSet
-import android.view.View
 import android.view.MotionEvent
-=======
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.util.AttributeSet
 import android.view.View
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 import kotlin.random.Random
 
 class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
-<<<<<<< HEAD
     private val snake = mutableListOf<Pair<Int, Int>>()
 
     private var direction = ""
+
+    private var lastDirection = ""
+
     private var touchStartX = 0f
     private var touchStartY = 0f
+    private var offsetX = 0f
+    private var offsetY = 0f
 
-    private val boxSize = 55
+    private val boxSize = 60
+
     private val maxX
         get() = width / boxSize
 
     private val maxY
         get() = height / boxSize
-=======
-    private val paint = Paint()
-
-    private val snake = mutableListOf<Pair<Int, Int>>()
-
-    private var direction = "RIGHT"
-
-    private val boxSize = 50
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 
     private var foodX = 5
     private var foodY = 5
 
-<<<<<<< HEAD
     var score = 0
+
     var gameOver = false
+
     var gameStarted = false
 
-    private val snakePaint = Paint().apply {
-        color = Color.parseColor("#2962FF")
-        isAntiAlias = true
+    private var snakeColor = Color.parseColor("#2962FF")
+
+    private val snakePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = snakeColor
+        style = Paint.Style.FILL
     }
 
-    private val foodPaint = Paint().apply {
+    private val foodPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.RED
         isAntiAlias = true
+        style = Paint.Style.FILL
     }
 
-    private val gridPaint = Paint().apply {
-        color = Color.parseColor("#A7D948")
-    }
+    private val gridPaint = Paint()
 
-=======
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
-    init {
-        snake.add(Pair(10, 10))
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        snake.clear()
+
+        snake.add(
+            Pair(
+                maxX / 2,
+                maxY / 2
+            )
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        offsetX = ((width - (maxX * boxSize)) / 2).toFloat()
+        offsetY = ((height - (maxY * boxSize)) / 2).toFloat()
 
-<<<<<<< HEAD
-        drawGrid(canvas)
+        canvas.save()
+        canvas.translate(offsetX, offsetY)
+
+        drawGrid(canvas, maxX, maxY)
 
         // comida
+        // maçã
         canvas.drawCircle(
             (foodX * boxSize + boxSize / 2).toFloat(),
             (foodY * boxSize + boxSize / 2).toFloat(),
-            22f,
+            18f,
             foodPaint
+        )
+
+// brilho
+        val shinePaint = Paint().apply {
+            color = Color.WHITE
+        }
+
+        canvas.drawCircle(
+            (foodX * boxSize + boxSize / 2 - 6).toFloat(),
+            (foodY * boxSize + boxSize / 2 - 6).toFloat(),
+            5f,
+            shinePaint
+        )
+
+// cabinho
+        val stemPaint = Paint().apply {
+            color = Color.parseColor("#5D4037")
+            strokeWidth = 5f
+        }
+
+        canvas.drawLine(
+            (foodX * boxSize + boxSize / 2).toFloat(),
+            (foodY * boxSize + 10).toFloat(),
+            (foodX * boxSize + boxSize / 2).toFloat(),
+            (foodY * boxSize + 20).toFloat(),
+            stemPaint
         )
 
         // cobra
@@ -90,27 +118,68 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             val right = left + boxSize
             val bottom = top + boxSize
 
+            // corpo
             canvas.drawRoundRect(
-                left,
-                top,
-                right,
-                bottom,
-                25f,
-                25f,
+                left + 4,
+                top + 4,
+                right - 4,
+                bottom - 4,
+                30f,
+                30f,
                 snakePaint
             )
 
-            // olhos na cabeça
+            // cabeça
             if (index == 0) {
 
-                val eyePaint = Paint().apply {
+                // olhos
+                val eyePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                     color = Color.WHITE
                 }
 
-                canvas.drawCircle(left + 18, top + 18, 5f, eyePaint)
-                canvas.drawCircle(left + 38, top + 18, 5f, eyePaint)
+                // pupilas
+                val pupilPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.BLACK
+                }
+
+                // brilho
+                val shinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                    color = Color.WHITE
+                }
+
+                // olho esquerdo
+                canvas.drawCircle(left + 22, top + 28, 10f, eyePaint)
+
+                // olho direito
+                canvas.drawCircle(left + 48, top + 28, 10f, eyePaint)
+
+                // pupilas
+                canvas.drawCircle(left + 22, top + 28, 4f, pupilPaint)
+
+                canvas.drawCircle(left + 48, top + 28, 4f, pupilPaint)
+
+                // brilhos
+                canvas.drawCircle(left + 19, top + 25, 2f, shinePaint)
+
+                canvas.drawCircle(left + 45, top + 25, 2f, shinePaint)
             }
         }
+
+// AQUI FORA DO FOR
+        canvas.restore()        
+
+
+            // olhos
+
+        // texto inicial
+        if (!gameStarted && !gameOver) {
+
+
+
+
+        }
+
+        // game over
         if (gameOver) {
 
             val textPaint = Paint().apply {
@@ -129,18 +198,21 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         }
     }
 
-    private fun drawGrid(canvas: Canvas) {
+    private fun drawGrid(canvas: Canvas, maxX: Int, maxY: Int) {
 
-        var toggle = false
+        var toggle: Boolean
 
-        for (x in 0..20) {
-            toggle = !toggle
+        for (x in 0 until maxX) {
 
-            for (y in 0..35) {
+            toggle = x % 2 == 0
+
+            for (y in 0 until maxY) {
 
                 gridPaint.color =
-                    if (toggle) Color.parseColor("#AAD751")
-                    else Color.parseColor("#A2D149")
+                    if (toggle)
+                        Color.parseColor("#AAD751")
+                    else
+                        Color.parseColor("#A2D149")
 
                 canvas.drawRect(
                     (x * boxSize).toFloat(),
@@ -156,35 +228,8 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     }
 
     fun moveSnake() {
+
         if (!gameStarted) return
-=======
-        canvas.drawColor(Color.BLACK)
-
-        paint.color = Color.GREEN
-
-        for (part in snake) {
-            canvas.drawRect(
-                (part.first * boxSize).toFloat(),
-                (part.second * boxSize).toFloat(),
-                ((part.first + 1) * boxSize).toFloat(),
-                ((part.second + 1) * boxSize).toFloat(),
-                paint
-            )
-        }
-
-        paint.color = Color.RED
-
-        canvas.drawRect(
-            (foodX * boxSize).toFloat(),
-            (foodY * boxSize).toFloat(),
-            ((foodX + 1) * boxSize).toFloat(),
-            ((foodY + 1) * boxSize).toFloat(),
-            paint
-        )
-    }
-
-    fun moveSnake() {
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 
         val head = snake.first()
 
@@ -192,26 +237,39 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         var newY = head.second
 
         when(direction) {
+
             "UP" -> newY--
+
             "DOWN" -> newY++
+
             "LEFT" -> newX--
+
             "RIGHT" -> newX++
         }
-<<<<<<< HEAD
-        if (newX < 0 || newY < 0 || newX >= maxX || newY >= maxY) {
+
+        // colisão parede
+        if (
+            newX < 0 ||
+            newY < 0 ||
+            newX >= maxX ||
+            newY >= maxY
+        ) {
 
             gameOver = true
 
+            lastDirection = direction
+
             invalidate()
+
 
             return
         }
 
-        snake.add(0, Pair(newX, newY))
-        for (i in 1 until snake.size - 1) {
+        // colisão corpo
+        for (part in snake) {
 
-            if (snake[i].first == newX &&
-                snake[i].second == newY) {
+            if (part.first == newX &&
+                part.second == newY) {
 
                 gameOver = true
 
@@ -221,33 +279,32 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             }
         }
 
+        snake.add(0, Pair(newX, newY))
+
+        // comida
         if (newX == foodX && newY == foodY) {
 
             score++
+            snakeColor = Color.rgb(
+                Random.nextInt(50, 255),
+                Random.nextInt(50, 255),
+                Random.nextInt(50, 255)
+            )
 
-            foodX = Random.nextInt(0, maxX)
+            snakePaint.color = snakeColor
 
-            foodY = Random.nextInt(0, maxY)
+            foodX = Random.nextInt(1, maxX - 1)
 
-=======
+            foodY = Random.nextInt(1, maxY - 1)
 
-        snake.add(0, Pair(newX, newY))
-
-        if (newX == foodX && newY == foodY) {
-            foodX = Random.nextInt(0, 15)
-            foodY = Random.nextInt(0, 20)
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
         } else {
+
             snake.removeAt(snake.size - 1)
         }
 
         invalidate()
     }
 
-    fun setDirection(dir: String) {
-        direction = dir
-    }
-<<<<<<< HEAD
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         when(event.action) {
@@ -255,6 +312,7 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             MotionEvent.ACTION_DOWN -> {
 
                 touchStartX = event.x
+
                 touchStartY = event.y
             }
 
@@ -263,29 +321,45 @@ class GameView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
                 gameStarted = true
 
                 val deltaX = event.x - touchStartX
+
                 val deltaY = event.y - touchStartY
 
-                if (kotlin.math.abs(deltaX) > kotlin.math.abs(deltaY)) {
+                if (kotlin.math.abs(deltaX) >
+                    kotlin.math.abs(deltaY)) {
 
-                    if (deltaX > 0) {
+
+                    // movimento horizontal
+
+                    if (deltaX > 0 && lastDirection != "LEFT") {
+
                         direction = "RIGHT"
-                    } else {
+
+                    } else if (deltaX < 0 && lastDirection != "RIGHT") {
+
                         direction = "LEFT"
+
                     }
+
 
                 } else {
 
-                    if (deltaY > 0) {
+
+                    // movimento vertical
+
+                    if (deltaY > 0 && lastDirection != "UP") {
+
                         direction = "DOWN"
-                    } else {
+
+                    } else if (deltaY < 0 && lastDirection != "DOWN") {
+
                         direction = "UP"
+
                     }
+
                 }
             }
         }
 
         return true
     }
-=======
->>>>>>> 75a32d5baa9b7c8d0280d6d59323c02d9714fd28
 }
